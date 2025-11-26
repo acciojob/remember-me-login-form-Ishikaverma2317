@@ -1,51 +1,43 @@
-// Check if saved credentials exist on page load
-window.onload = function () {
-  const savedUsername = localStorage.getItem("username");
-  const savedPassword = localStorage.getItem("password");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const checkbox = document.getElementById("checkbox");
+const submitBtn = document.getElementById("submit");
+const existingBtn = document.getElementById("existing");
 
-  const existingBtn = document.getElementById("existing");
+// ✅ Check localStorage on load
+window.onload = () => {
+  const storedUser = localStorage.getItem("username");
+  const storedPass = localStorage.getItem("password");
 
-  if (savedUsername && savedPassword) {
-    // Show existing user login button
+  if (storedUser && storedPass) {
     existingBtn.style.display = "block";
   } else {
     existingBtn.style.display = "none";
   }
-
-  // Existing user login button click
-  existingBtn.addEventListener("click", function () {
-    alert(`Logged in as ${savedUsername}`);
-  });
 };
 
-// Handle form submission
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
-  const usernameInput = document.getElementById("username");
-  const passwordInput = document.getElementById("password");
-  const checkbox = document.getElementById("checkbox");
-  const existingBtn = document.getElementById("existing");
+// ✅ Submit Handler
+submitBtn.addEventListener("click", (event) => {
+  event.preventDefault();
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
 
-    const username = usernameInput.value;
-    const password = passwordInput.value;
+  alert(`Logged in as ${username}`);
 
-    alert(`Logged in as ${username}`);
+  if (checkbox.checked) {
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+  } else {
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+  }
 
-    if (checkbox.checked) {
-      // Save credentials
-      localStorage.setItem("username", username);
-      localStorage.setItem("password", password);
+  window.onload();
+});
 
-      existingBtn.style.display = "block";
-    } else {
-      // Remove saved credentials
-      localStorage.removeItem("username");
-      localStorage.removeItem("password");
-
-      existingBtn.style.display = "none";
-    }
-  });
+// ✅ Existing User Login
+existingBtn.addEventListener("click", () => {
+  const storedUser = localStorage.getItem("username");
+  alert(`Logged in as ${storedUser}`);
 });
