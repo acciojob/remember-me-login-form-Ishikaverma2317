@@ -1,35 +1,197 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
-  </head>
-
-  <body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-container input {
+            margin-right: 10px;
+        }
+        
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        
+        #existing {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        #existing:hover {
+            background-color: #0b7dda;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
     <h1>Login Form</h1>
 
-    <form>
-      <label for="username">Username:</label>
-      <input type="text" id="username" placeholder="Username" />
-
-      <br />
-
-      <label for="password">Password:</label>
-      <input type="password" id="password" placeholder="Password" />
-
-      <br />
-
-      <label for="checkbox">
-        <input type="checkbox" id="checkbox" />
-        Remember me.
-      </label>
-
-      <br />
-
-      <input type="submit" id="submit" value="Submit" />
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Username" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Password" required>
+        
+        <div class="checkbox-container">
+            <input type="checkbox" id="checkbox">
+            <label for="checkbox">Remember me.</label>
+        </div>
+        
+        <input type="submit" id="submit" value="Submit">
     </form>
 
     <button id="existing" style="display:none;">Login as existing user</button>
+    
+    <div id="statusMessage" class="status" style="display:none;"></div>
 
-    <script src="script.js"></script>
-  </body>
+    <script>
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const checkbox = document.getElementById("checkbox");
+        const submitBtn = document.getElementById("submit");
+        const existingBtn = document.getElementById("existing");
+        const loginForm = document.getElementById("loginForm");
+        const statusMessage = document.getElementById("statusMessage");
+
+        // Check localStorage on load
+        window.onload = () => {
+            const storedUser = localStorage.getItem("username");
+            const storedPass = localStorage.getItem("password");
+
+            if (storedUser && storedPass) {
+                existingBtn.style.display = "block";
+                showStatus(`Welcome back! You can log in as ${storedUser} using the "Login as existing user" button.`, "info");
+            } else {
+                existingBtn.style.display = "none";
+            }
+        };
+
+        // Submit Handler
+        loginForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                showStatus("Please enter both username and password.", "error");
+                return;
+            }
+
+            showStatus(`Logged in as ${username}`, "success");
+
+            if (checkbox.checked) {
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
+                showStatus(`Credentials saved. Next time you can use "Login as existing user".`, "info");
+            } else {
+                localStorage.removeItem("username");
+                localStorage.removeItem("password");
+            }
+
+            // Update UI based on stored credentials
+            window.onload();
+        });
+
+        // Existing User Login
+        existingBtn.addEventListener("click", () => {
+            const storedUser = localStorage.getItem("username");
+            showStatus(`Logged in as ${storedUser}`, "success");
+        });
+
+        // Helper function to show status messages
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = "status " + (type === "success" ? "success" : "info");
+            statusMessage.style.display = "block";
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === "success") {
+                setTimeout(() => {
+                    statusMessage.style.display = "none";
+                }, 3000);
+            }
+        }
+    </script>
+</body>
 </html>
