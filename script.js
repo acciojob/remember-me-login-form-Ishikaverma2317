@@ -1,96 +1,43 @@
-// ------------------------------
-// QUIZ QUESTIONS
-// ------------------------------
-const questions = [
-  {
-    q: "What is the capital of India?",
-    options: ["Delhi", "Mumbai", "Kolkata", "Chennai"],
-    answer: 0
-  },
-  {
-    q: "Which language runs in a web browser?",
-    options: ["Java", "C", "Python", "JavaScript"],
-    answer: 3
-  },
-  {
-    q: "What is 2 + 2?",
-    options: ["3", "4", "5", "22"],
-    answer: 1
-  },
-  {
-    q: "Node.js is built on which engine?",
-    options: ["Java VM", "V8 Engine", "SpiderMonkey", "Panda"],
-    answer: 1
-  },
-  {
-    q: "LocalStorage stores data in?",
-    options: ["Server", "Browser", "RAM", "Cache"],
-    answer: 1
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const checkbox = document.getElementById("checkbox");
+const submitBtn = document.getElementById("submit");
+const existingBtn = document.getElementById("existing");
+
+// ✅ Check localStorage on load
+window.onload = () => {
+  const storedUser = localStorage.getItem("username");
+  const storedPass = localStorage.getItem("password");
+
+  if (storedUser && storedPass) {
+    existingBtn.style.display = "block";
+  } else {
+    existingBtn.style.display = "none";
   }
-];
+};
 
-// ------------------------------
-// LOAD SAVED PROGRESS (SESSION STORAGE)
-// ------------------------------
-let savedProgress = JSON.parse(sessionStorage.getItem("progress")) || {};
+// ✅ Submit Handler
+submitBtn.addEventListener("click", (event) => {
+  event.preventDefault();
 
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
 
-// ------------------------------
-// RENDER QUESTIONS
-// ------------------------------
-const quizForm = document.getElementById("quizForm");
+  alert(`Logged in as ${username}`);
 
-questions.forEach((item, index) => {
-  let div = document.createElement("div");
-  div.className = "question";
+  if (checkbox.checked) {
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+  } else {
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+  }
 
-  let html = `<h3>${index + 1}. ${item.q}</h3>`;
-
-  item.options.forEach((opt, optIndex) => {
-    const isChecked = savedProgress[index] == optIndex ? "checked" : "";
-
-    html += `
-      <label>
-        <input 
-          type="radio" 
-          name="q${index}" 
-          value="${optIndex}" 
-          ${isChecked}
-          onchange="saveProgress(${index}, ${optIndex})"
-        >
-        ${opt}
-      </label><br>
-    `;
-  });
-
-  div.innerHTML = html;
-  quizForm.appendChild(div);
+  window.onload();
 });
 
-
-// ------------------------------
-// SAVE TO SESSION STORAGE
-// ------------------------------
-function saveProgress(qIndex, optIndex) {
-  savedProgress[qIndex] = optIndex;
-  sessionStorage.setItem("progress", JSON.stringify(savedProgress));
-}
-
-
-// ------------------------------
-// SUBMIT QUIZ
-// ------------------------------
-function submitQuiz() {
-  let score = 0;
-
-  questions.forEach((q, index) => {
-    if (savedProgress[index] == q.answer) {
-      score++;
-    }
-  });
-
-  // store score in localStorage
-  localStorage.setItem("quizScore", score);
-
-  alert(`Your Score: ${score}/5`);
-}
+// ✅ Existing User Login
+existingBtn.addEventListener("click", () => {
+  const storedUser = localStorage.getItem("username");
+  alert(`Logged in as ${storedUser}`);
+});
