@@ -35,22 +35,23 @@
 
   <h1>Login Form</h1>
 
-  <form id="loginForm">
-    <label>Username</label>
-    <input type="text" id="username" placeholder="Username">
+<form id="loginForm">
 
-    <label>Password</label>
-    <input type="password" id="password" placeholder="Password">
+  <label for="username">Username</label>
+  <input type="text" id="username" placeholder="Username">
 
-    <label>
-      <input type="checkbox" id="checkbox">
-      Remember me
-    </label>
+  <label for="password">Password</label>
+  <input type="password" id="password" placeholder="Password">
 
-    <input type="submit" id="submit" value="Submit">
-  </form>
+  <label for="checkbox">
+    <input type="checkbox" id="checkbox"> Remember me
+  </label>
 
-  <button id="existing">Login as existing user</button>
+  <input type="submit" id="submit" value="Submit">
+</form>
+
+<button id="existing">Login as existing user</button>
+
 
   <script>
     const usernameInput = document.getElementById("username");
