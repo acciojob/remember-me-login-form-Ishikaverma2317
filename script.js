@@ -4,12 +4,12 @@ const checkbox = document.getElementById("checkbox");
 const submitBtn = document.getElementById("submit");
 const existingBtn = document.getElementById("existing");
 
-// Show existing user button if data saved
+// show existing user button if credentials stored
 function checkExistingUser() {
-  const user = localStorage.getItem("username");
-  const pass = localStorage.getItem("password");
+  const u = localStorage.getItem("username");
+  const p = localStorage.getItem("password");
 
-  if (user && pass) {
+  if (u && p) {
     existingBtn.style.display = "block";
   } else {
     existingBtn.style.display = "none";
@@ -17,7 +17,7 @@ function checkExistingUser() {
 }
 checkExistingUser();
 
-// Submit handler
+// submit handler
 submitBtn.addEventListener("click", function (e) {
   e.preventDefault();
 
@@ -37,7 +37,7 @@ submitBtn.addEventListener("click", function (e) {
   checkExistingUser();
 });
 
-// Existing user login
+// login as existing user
 existingBtn.addEventListener("click", function () {
   const savedUser = localStorage.getItem("username");
   alert(`Logged in as ${savedUser}`);
