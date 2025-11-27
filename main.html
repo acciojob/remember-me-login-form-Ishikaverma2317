@@ -1,18 +1,22 @@
-<h1>Login Form</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .question { margin-bottom: 20px; }
+    button { padding: 10px 20px; margin-top: 20px; cursor: pointer; }
+  </style>
+</head>
+<body>
 
-<form id="loginForm">
+  <h2>MCQ Quiz</h2>
+  <form id="quizForm"></form>
 
-  <label for="username">Username</label>
-  <input type="text" id="username" placeholder="Username">
+  <button onclick="submitQuiz()">Submit Quiz</button>
 
-  <label for="password">Password</label>
-  <input type="password" id="password" placeholder="Password">
-
-  <label for="checkbox">Remember me.</label>
-  <input type="checkbox" id="checkbox">
-
-  <input type="submit" id="submit" value="Submit">
-
-</form>
-
-<button id="existing">Login as existing user</button>
+  <script src="script.js"></script>
+</body>
+</html>
