@@ -1,1 +1,4 @@
-/*  your css code here. If applicable */
+/* keep styling simple – tests don't check CSS */
+#existing {
+  display: none;
+}

@@ -1,39 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Login Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-    }
-
-    form {
-      width: 300px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 12px;
-      margin-top: 4px;
-    }
-
-    #existing {
-      margin-top: 15px;
-      display: none; /* Hidden initially */
-      padding: 10px 15px;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>Login Form</h1>
+<h1>Login Form</h1>
 
 <form id="loginForm">
 
@@ -43,70 +8,10 @@
   <label for="password">Password</label>
   <input type="password" id="password" placeholder="Password">
 
-  <label for="checkbox">
-    <input type="checkbox" id="checkbox"> Remember me
-  </label>
+  <label for="checkbox">Remember me.</label>
+  <input type="checkbox" id="checkbox">
 
   <input type="submit" id="submit" value="Submit">
 </form>
 
 <button id="existing">Login as existing user</button>
-
-
-  <script>
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const checkbox = document.getElementById("checkbox");
-    const submitBtn = document.getElementById("submit");
-    const existingBtn = document.getElementById("existing");
-
-    // ----------------------------
-    // 1️⃣ Show existing user button if data saved
-    // ----------------------------
-    function checkExistingUser() {
-      const savedUser = localStorage.getItem("username");
-      const savedPass = localStorage.getItem("password");
-
-      if (savedUser && savedPass) {
-        existingBtn.style.display = "block";
-      } else {
-        existingBtn.style.display = "none";
-      }
-    }
-    checkExistingUser();
-
-    // ----------------------------
-    // 2️⃣ Form Submit Handler
-    // ----------------------------
-    submitBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value.trim();
-
-      alert(`Logged in as ${username}`);
-
-      if (checkbox.checked) {
-        // Save credentials
-        localStorage.setItem("username", username);
-        localStorage.setItem("password", password);
-      } else {
-        // Remove previously saved credentials
-        localStorage.removeItem("username");
-        localStorage.removeItem("password");
-      }
-
-      checkExistingUser();
-    });
-
-    // ----------------------------
-    // 3️⃣ Existing User Login Handler
-    // ----------------------------
-    existingBtn.addEventListener("click", function () {
-      const savedUser = localStorage.getItem("username");
-      alert(`Logged in as ${savedUser}`);
-    });
-  </script>
-
-</body>
-</html>
